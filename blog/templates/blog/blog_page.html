@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+
+{% block content %}
+    <h1>{{page.title}}</h1>
+    <p class="meta">{{page.date}}</p>
+
+    
+    
+        
+    
+    {% with categories=page.categories.all %}
+        {% if categories %}
+            <h2>Posted in:</h2>
+            <ul>
+                {% for category in categories %}
+                    <li style="display: inline">
+                        {% image category.icon fill-32x32 style="vertical-align: middle" %}
+                        {{ category.name }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    
+    {% with tags=page.tags.all %}
+        {% if tags %}
+            <div class="tags">
+                <h3>Tags</h3>
+                {% for tag in tags %}
+                    <a class="btn btn-outline-success btn-sm btn-rounded" href="{% slugurl 'tags' %}?tag={{ tag }}"><i class="fas fa-tag" aria-hidden="true"></i>
+                        {{ tag }}
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <div class="intro">{{page.intro}}</div>
+
+    {{page.body|richtext}}
+<br>
+    {% for item in page.gallery_images.all %}
+    <div style="float: left;margin: 10px;">
+        {% image item.image fill-320x240 %}
+        <p>{{item.caption}}</p>
+    </div>
+    {% endfor %}
+    <br>
+    <p class="">
+        <a href="{{page.get_parent.url}}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+            Return to blog
+        </a></p>
+{% endblock %}
+    

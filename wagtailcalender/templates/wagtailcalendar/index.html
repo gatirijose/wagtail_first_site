@@ -1,0 +1,25 @@
+{% extends "wagtailadmin/base.html" %}
+{% load wagtailcore_tags %}
+{% block titletag %}{{ current_year }} calendar{% endblock %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <style>
+        table.month {
+            margin: 20px;
+        }
+        table.month td, table.month th {
+            padding: 5px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% include "wagtailadmin/shared/header.html" with title="Calendar" icon="date" %}
+    <br>
+    <!-- <h1 style="text-align: start; margin: 3px; padding-left: 1.5in;">{{current_date|date:'D,d M Y'}}</h1> -->
+
+    <div class="nice-padding">
+        {{ calendar_html|richtext }}
+    </div>
+{% endblock %}
